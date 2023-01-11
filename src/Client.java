@@ -44,7 +44,7 @@ public class Client extends Thread {
 				if (serverMessage.contains("?"))
 					quiz.setQuestion(serverMessage);
 				else 
-					quiz.setText(serverMessage);
+					quiz.setResult(serverMessage);
 			}
 
 		} catch (IOException e) {

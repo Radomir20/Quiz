@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class Quiz extends Application {
     private Client client;
     private String question;
-    private String text;
+    private String result;
 
     @Override
     public void start(Stage primaryStage) {
@@ -46,26 +46,23 @@ public class Quiz extends Application {
         radio4.setOnAction(e -> button.setDisable(false));
 
         button.setOnAction(e -> {
-            if (radio1.isSelected()){
+            if (radio1.isSelected()) {
                 client.sendMessage(radio1.getText());
                 button.setDisable(true);
-            }
-            else if (radio2.isSelected()){
+            } else if (radio2.isSelected()) {
                 client.sendMessage(radio2.getText());
                 button.setDisable(true);
-            }
-            else if (radio3.isSelected()) {
+            } else if (radio3.isSelected()) {
                 client.sendMessage(radio3.getText());
                 button.setDisable(true);
-            }
-            else {
+            } else {
                 client.sendMessage(radio4.getText());
                 button.setDisable(true);
             }
-            
+
         });
-        labelresponse.setText(this.getText());
-        
+        labelresponse.setText(this.getResult());
+
         VBox layout = new VBox(5);
 
         layout.getChildren().addAll(labelfirst, radio1, radio2, radio3, radio4, button, labelresponse);
@@ -80,16 +77,16 @@ public class Quiz extends Application {
         this.question = question;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public String getQuestion() {
         return question;
     }
 
-    public String getText() {
-        return text;
+    public String getResult() {
+        return result;
     }
 
     public static void main(String[] args) {
