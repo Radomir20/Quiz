@@ -6,9 +6,32 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "vmArgs": "--module-path openjfx/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
+            "projectName": "Quiz_abd1f5aa"
+        },
+        {
+            "type": "java",
             "name": "Launch Quiz",
             "request": "launch",
-            "vmArgs": "--module-path C:/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "Quiz",
+            "vmArgs": "--module-path openjfx/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
+            "projectName": "Quiz_abd1f5aa"
+        },
+        {
+            "type": "java",
+            "name": "Launch Server",
+            "request": "launch",
+            "mainClass": "Server",
+            "projectName": "Quiz_abd1f5aa"
+        },
+        {
+            "type": "java",
+            "name": "Launch Quiz",
+            "request": "launch",
+            "vmArgs": "--module-path openjfx/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "Quiz",
             "projectName": "Quiz_2c8f6e55"
         },
@@ -23,10 +46,9 @@
             "type": "java",
             "name": "Launch Test",
             "request": "launch",
-            "vmArgs": "--module-path C:/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
+            "vmArgs": "--module-path openjfx/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "Test",
             "projectName": "Quiz_2c8f6e55"
         }
-        
     ]
 }

@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Client extends Thread {
 	private static int SERVER_PORT = 9876;
@@ -14,6 +15,7 @@ public class Client extends Thread {
 	private PrintWriter output;
 	private BufferedReader input;
 	private Quiz quiz;
+
 
 	public Client(Quiz quiz) {
 		this.quiz = quiz;
@@ -41,12 +43,17 @@ public class Client extends Thread {
 				serverMessage = input.readLine(); // osluskuje i cita koju i da li postu dobija
 				if (serverMessage == null)
 					break;
-				if (serverMessage.contains("?"))
-					quiz.setQuestion(serverMessage);
-				else 
-					quiz.setResult(serverMessage);
-			}
+				String action = serverMessage.split(" /")[0];
+				if (action.equals("QUESTION")) {
+					String q_a = serverMessage.split(" /")[1];
+					quiz.setQuestion(q_a.split("; ")[0]);
+					quiz.setAnswers(Arrays.copyOfRange(q_a.split("; "), 1, q_a.split("; ").length));
+				} else if (action.equals("ANSWER")) {
+					quiz.setResult(serverMessage.split(" /")[1]);
+				}
 
+			}
+			closeResourses();
 		} catch (IOException e) {
 			try {
 				closeResourses();
@@ -61,10 +68,17 @@ public class Client extends Thread {
 		output.println(message);
 	}
 
+	public void setUsername(String text) {
+	}
+
+    public void sendUsername() {
+    }
+
 	public void closeResourses() throws IOException {
 		input.close();
 		output.close();
 		socket.close();
 		interrupt();
 	}
+
 }

@@ -9,11 +9,16 @@ public class Server {
 	private int SERVER_PORT = 9876;
 	private ServerSocket serverSocket = null;
 	private ArrayList<ClientThread> threads = new ArrayList<>();
-	private String[] pitanje = {"What is 10 + 20?", "30"};
+	private ArrayList<String[]> pitanja = new ArrayList<>();
+	private String[] pitanje1 = {"What is 10 + 20?; A)10; B)20; C)30", "C"};
+	private String[] pitanje2 = {"What is 13 + 2120?; A)3210; B)2133; C)3320", "B"};
+
 
 	public Server() throws IOException {
 		serverSocket = new ServerSocket(SERVER_PORT);
 		System.out.println("Server started on port " + SERVER_PORT);
+		pitanja.add(pitanje1);
+		pitanja.add(pitanje2);
 		execute();
 	}
 
@@ -32,10 +37,10 @@ public class Server {
 	}
 
 	public String getPitanje() {
-		return pitanje[0];
+		return "QUESTION /" + pitanja.get(0)[0];
 	}
 	public String getOdgovor(){
-		return pitanje[1];
+		return pitanja.get(0)[1];
 	}
 
 	public static void main(String[] args) throws IOException {

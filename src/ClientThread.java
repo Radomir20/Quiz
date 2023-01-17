@@ -29,13 +29,13 @@ public class ClientThread extends Thread {
 			String message;
 			while (true) {
 				message = input.readLine();
-				if(message.equals("Konektovan"))
+				if(message.equals("Pitanje"))
 					this.sendMessage(server.getPitanje());
 				else{
 					if(message.equals(server.getOdgovor()))
-						this.sendMessage("Tacno ste odgovorili");
+						this.sendMessage("ANSWER /Tacno ste odgovorili");
 					else
-						this.sendMessage("Pogresan odgovor");
+						this.sendMessage("ANSWER /Pogresan odgovor");
 				}
 			}
 		} catch (IOException e) {
