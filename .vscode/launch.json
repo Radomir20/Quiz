@@ -6,39 +6,27 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Server",
-            "request": "launch",
-            "mainClass": "Server",
-            "projectName": "Quiz_abd1f5aa"
-        },
-        {
-            "type": "java",
             "name": "Launch Quiz",
             "request": "launch",
+            "vmArgs": "--module-path C:/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
             "mainClass": "Quiz",
-            "vmArgs": "--module-path D:/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib --add-modules javafx.controls,javafx.fxml",
-            "projectName": "Quiz_abd1f5aa"
+            "projectName": "Quiz_2c8f6e55"
         },
         {
             "type": "java",
             "name": "Launch Server",
             "request": "launch",
             "mainClass": "Server",
-            "projectName": "Quiz_cf15e323"
+            "projectName": "Quiz_2c8f6e55"
         },
         {
             "type": "java",
-            "name": "Launch Current File",
+            "name": "Launch Test",
             "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Launch Quiz",
-            "request": "launch",
-            "mainClass": "Quiz",
-            "vmArgs": "--module-path D:/openjfx-18.0.1_windows-x64_bin-sdk/javafx-sdk-18.0.1/lib --add-modules javafx.controls,javafx.fxml",
-            "projectName": "Quiz_cf15e323"
+            "vmArgs": "--module-path C:/javafx-sdk-19/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "Test",
+            "projectName": "Quiz_2c8f6e55"
         }
+        
     ]
 }
