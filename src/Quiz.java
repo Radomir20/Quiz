@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,9 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
 
 public class Quiz extends Application {
@@ -22,7 +18,7 @@ public class Quiz extends Application {
     private String question;
     private String[] answers;
     private String result;
-    private String username;
+    //private String username;
 
     @Override
     public void start(Stage primaryStage) {
@@ -88,7 +84,7 @@ public class Quiz extends Application {
                 return;
             }
             error.setText("");
-            username = userName.getText();
+            //username = userName.getText();
             // client.setUsername(userName.getText());
             // client.sendUsername();
             client.sendMessage("Pitanje");

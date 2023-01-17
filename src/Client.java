@@ -41,6 +41,7 @@ public class Client extends Thread {
 			String serverMessage;
 			while (true) {
 				serverMessage = input.readLine(); // osluskuje i cita koju i da li postu dobija
+				System.out.println(serverMessage);
 				if (serverMessage == null)
 					break;
 				String action = serverMessage.split(" /")[0];
