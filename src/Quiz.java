@@ -1,4 +1,8 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,7 +22,7 @@ public class Quiz extends Application {
     private String question;
     private String[] answers;
     private String result;
-    //private String username;
+    // private String username;
 
     @Override
     public void start(Stage primaryStage) {
@@ -41,7 +45,7 @@ public class Quiz extends Application {
         userName.setMaxHeight(30);
         userName.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
                 + "-fx-background-color: #0c8080; -fx-padding: 15;");
-        
+
         Button play = new Button("Play");
         play.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
                 + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
@@ -84,7 +88,7 @@ public class Quiz extends Application {
                 return;
             }
             error.setText("");
-            //username = userName.getText();
+            // username = userName.getText();
             // client.setUsername(userName.getText());
             // client.sendUsername();
             client.sendMessage("Pitanje");
@@ -186,23 +190,30 @@ public class Quiz extends Application {
 
         Label res = new Label();
         res.setStyle(
-                "-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: black; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
-        res.setPrefWidth(300);
+                "-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: green; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
         res.setWrapText(true);
         vb.getChildren().add(res);
 
+        timer(res);
+
         b1.setOnAction(e -> {
             client.sendMessage("A");
-            res.setText(this.getResult());
+            b1.setDisable(true);
+            b2.setDisable(true);
+            b3.setDisable(true);
         });
 
         b2.setOnAction(e -> {
             client.sendMessage("B");
-            res.setText(this.getResult());
+            b1.setDisable(true);
+            b2.setDisable(true);
+            b3.setDisable(true);
         });
         b3.setOnAction(e -> {
             client.sendMessage("C");
-            res.setText(this.getResult());
+            b1.setDisable(true);
+            b2.setDisable(true);
+            b3.setDisable(true);
         });
 
         BorderPane pane = new BorderPane();
@@ -238,6 +249,26 @@ public class Quiz extends Application {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    private void timer(Label res) {
+        TimerTask task = new TimerTask() {
+            int seconds = 10;
+            int i = 0;
+
+            @Override
+            public void run() {
+                if (seconds - i == 0) {
+                    Platform.runLater(() -> res.setText(result));
+                    this.cancel();
+                } else
+                    Platform.runLater(() -> res.setText("" + (seconds - i)));
+                i++;
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(task, 0, 1000);
     }
 
     public static void main(String[] args) {
