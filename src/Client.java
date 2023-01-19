@@ -7,7 +7,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Arrays;
+
+import javafx.application.Platform;
 
 public class Client extends Thread {
 	private static int SERVER_PORT = 9876;
@@ -48,8 +49,7 @@ public class Client extends Thread {
 				String action = serverMessage.split(" /")[0];
 				if (action.equals("QUESTION")) {
 					String q_a = serverMessage.split(" /")[1];
-					quiz.setQuestion(q_a.split("; ")[0]);
-					quiz.setAnswers(Arrays.copyOfRange(q_a.split("; "), 1, q_a.split("; ").length));
+					Platform.runLater(() -> quiz.setQuestion(q_a));
 				} else if (action.equals("ANSWER")) {
 					quiz.setResult(serverMessage.split(" /")[1]);
 				}

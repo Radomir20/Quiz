@@ -34,8 +34,8 @@ public class ClientThread extends Thread {
 				String action = message.split(" ")[0];
 				if (action.equals("USERNAME")) {
 					username = message.split(" ")[1];
-					server.addToList(client);}
-				if(message.equals("Pitanje"))
+					server.addToList(client);
+				}else if(message.equals("Pitanje"))
 					this.sendMessage(server.getPitanje());
 				else{
 					if(message.equals(server.getOdgovor()))
