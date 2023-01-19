@@ -22,7 +22,9 @@ public class Quiz extends Application {
     private String question;
     private String[] answers;
     private String result;
-    // private String username;
+    private String username;
+    private int bodovi = 0;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -88,21 +90,20 @@ public class Quiz extends Application {
                 return;
             }
             error.setText("");
-            // username = userName.getText();
-            // client.setUsername(userName.getText());
-            // client.sendUsername();
-            client.sendMessage("Pitanje");
+            username = userName.getText();
+            client.setUsername(userName.getText());
+            client.sendUsername();
             primaryStage.setScene(makeScene());
             primaryStage.centerOnScreen();
             primaryStage.show();
             // refresh();
         });
     }
-
+    
     // ----------------------------------- GUI
     private Scene makeScene() {
         HBox hb = new HBox(200);
-        Label l1 = new Label("Player1: 5");// Dodati ime i bodove
+        Label l1 = new Label(username + ": " + bodovi);// Dodati ime i bodove
         l1.setStyle("-fx-font-size: 12; -fx-text-fill: white; -fx-font-family: 'Verdana'; -fx-font-weight: bold;");
         Label l2 = new Label("Player2: 9");// Dodati protivnika i bodove
         l2.setStyle("-fx-font-size: 12; -fx-text-fill: white; -fx-font-family: 'Verdana'; -fx-font-weight: bold;");
@@ -193,6 +194,7 @@ public class Quiz extends Application {
                 "-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: green; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
         res.setWrapText(true);
         vb.getChildren().add(res);
+        
 
         timer(res);
 
@@ -217,7 +219,7 @@ public class Quiz extends Application {
         });
 
         BorderPane pane = new BorderPane();
-        pane.setStyle("-fx-background-color: #74c1cd;"); // mzd za dva klijenta razl boje
+        pane.setStyle("-fx-background-color: #74c1cd;"); 
         pane.setCenter(vb);
         pane.setTop(hb);
 

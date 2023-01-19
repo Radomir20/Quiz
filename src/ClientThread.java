@@ -29,6 +29,12 @@ public class ClientThread extends Thread {
 			String message;
 			while (true) {
 				message = input.readLine();
+				System.out.println(message);
+
+				String action = message.split(" ")[0];
+				if (action.equals("USERNAME")) {
+					username = message.split(" ")[1];
+					server.addToList(client);}
 				if(message.equals("Pitanje"))
 					this.sendMessage(server.getPitanje());
 				else{

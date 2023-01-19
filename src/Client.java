@@ -15,6 +15,7 @@ public class Client extends Thread {
 	private PrintWriter output;
 	private BufferedReader input;
 	private Quiz quiz;
+	private String username;
 
 
 	public Client(Quiz quiz) {
@@ -69,10 +70,12 @@ public class Client extends Thread {
 		output.println(message);
 	}
 
-	public void setUsername(String text) {
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
     public void sendUsername() {
+		output.println("USERNAME " + this.username);
     }
 
 	public void closeResourses() throws IOException {
