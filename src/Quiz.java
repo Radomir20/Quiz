@@ -28,6 +28,8 @@ public class Quiz extends Application {
     private Client client;
     private String result;
     private String username;
+    private String opponent;
+    private boolean opponentConnected = false;
     private int bodovi = 0;
 
     @Override
@@ -38,71 +40,73 @@ public class Quiz extends Application {
 
         this.primarStage = primaryStage;
 
-        // VBox start = new VBox(10);
-        // start.setPrefWidth(500);
-        // start.setPrefHeight(350);
-        // start.setAlignment(Pos.CENTER);
-        // Label input = new Label("Enter username:");
-        // input.setStyle(
-        //         "-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0c8080; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
+        VBox start = new VBox(10);
+        start.setPrefWidth(500);
+        start.setPrefHeight(350);
+        start.setAlignment(Pos.CENTER);
+        Label input = new Label("Enter username:");
+        input.setStyle(
+                "-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0c8080; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
 
-        // TextField userName = new TextField();
-        // userName.setMaxWidth(200);
-        // userName.setMaxHeight(30);
-        // userName.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
-        //         + "-fx-background-color: #0c8080; -fx-padding: 15;");
+        TextField userName = new TextField();
+        userName.setMaxWidth(200);
+        userName.setMaxHeight(30);
+        userName.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
+                + "-fx-background-color: #0c8080; -fx-padding: 15;");
 
-        // Button play = new Button("Play");
-        // play.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
-        //         + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
-        // play.setPrefWidth(70);
-        // play.setOnMouseEntered(new EventHandler<MouseEvent>() {
-        //     @Override
-        //     public void handle(MouseEvent mouseEvent) {
-        //         play.setStyle(
-        //                 "-fx-text-fill: #0c8080; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
-        //                         + "-fx-background-color: #A9F2F2; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
-        //     }
-        // });
-        // play.setOnMouseExited(new EventHandler<MouseEvent>() {
-        //     @Override
-        //     public void handle(MouseEvent mouseEvent) {
-        //         play.setStyle(
-        //                 "-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
-        //                         + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
-        //     }
-        // });
+        Button play = new Button("Play");
+        play.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
+                + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
+        play.setPrefWidth(70);
+        play.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                play.setStyle(
+                        "-fx-text-fill: #0c8080; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
+                                + "-fx-background-color: #A9F2F2; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
+            }
+        });
+        play.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                play.setStyle(
+                        "-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
+                                + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
+            }
+        });
 
-        // Label error = new Label();
-        // error.setStyle(" -fx-text-fill: red;");
-        // error.setManaged(false);
-        // error.setVisible(false);
-        // start.getChildren().addAll(input, userName, play, error);
-        // start.setStyle("-fx-background-color: #74c1cd;");
+        Label error = new Label();
+        error.setStyle(" -fx-text-fill: red;");
+        error.setManaged(false);
+        error.setVisible(false);
+        start.getChildren().addAll(input, userName, play, error);
+        start.setStyle("-fx-background-color: #74c1cd;");
 
-        // scene = new Scene(start, 500, 300);
-        // primaryStage.setScene(scene);
-        // primaryStage.setTitle("Quiz");
-        // primaryStage.setResizable(false);
-        // primaryStage.show();
+        scene = new Scene(start, 500, 300);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Quiz");
+        primaryStage.setResizable(false);
+        primaryStage.show();
 
-        // play.setOnAction(e -> {
-        //     if (userName.getText().isEmpty()) {
-        //         error.setText("Enter username!");
-        //         error.setManaged(true);
-        //         error.setVisible(true);
-        //         return;
-        //     }
-        //     error.setText("");
-            // username = userName.getText();
-            // // client.setUsername(userName.getText());
-            // client.sendUsername();
+        play.setOnAction(e -> {
+            if (userName.getText().isEmpty()) {
+                error.setText("Enter username!");
+                error.setManaged(true);
+                error.setVisible(true);
+                return;
+            }
+            error.setText("");
+            username = userName.getText();
+            client.setUsername(userName.getText());
+            client.sendUsername();
             primaryStage.setScene(makeScene());
             primaryStage.centerOnScreen();
             primaryStage.show();
-            // refresh();
-        // });
+            res.setText("Protivnik nije konektovan"); 
+        });
     }
+
+
 
     // ----------------------------------- GUI
     private Scene makeScene() {
@@ -198,7 +202,6 @@ public class Quiz extends Application {
                 "-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: green; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
         res.setWrapText(true);
         vb.getChildren().add(res);
-        client.sendMessage("Pitanje");
 
         b1.setOnAction(e -> {
             client.sendMessage("A");
@@ -272,5 +275,12 @@ public class Quiz extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    public void setOponentName(String opponent) {
+        this.opponent = opponent;
+        //System.out.println("Poslao protivnika");
+        client.sendMessage("Pitanje");
+    }
+
 
 }

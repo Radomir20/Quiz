@@ -1,0 +1,8 @@
+Koji je jedan od benefita OOPa?; A) Odrzivost; B) Polimorfizam; C) Fleksibilnost -B
+Koji je ispravan nacin za ispis u Pajtonu?; A) print("hello world"); B) printer("hello world"); C) Print(hello world) -A
+1 Mb je?; A) 1024 kb; B) 1000 kb; C) 1000 bajta -A
+Elektricni uredjaj sposoban da izvrsi kopleksna izracunavanja je?; A) Aplikacija; B) Operativni Sistem; C) Racunar -C
+Sta od navedenog nije ulazni uredjaj?; A) Sistem prepoznavanja govora; B) Projektor; C) Touch Screen -B
+Nepozeljna posta je poznata kao?; A) Malware; B) Fishing; C) Spam -C
+Kako se naziva brojna vrijednost kojom se identifikuje memorijska celija?; A) Adresa; B) Bit; C) RAM -A
+Koji od sledecih zapisa predstavlja broj 5 u potpunom komplementu?; A) 00000101; B) 00011010; C) 01110011 -A

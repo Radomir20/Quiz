@@ -47,6 +47,12 @@ public class Client extends Thread {
 				if (serverMessage == null)
 					break;
 				String action = serverMessage.split(" /")[0];
+				if (action.equals("START")) {
+					String name = serverMessage.split(" ")[1];
+					quiz.setOponentName(name);
+
+					//quiz.setOponentConnected();
+				}else
 				if (action.equals("QUESTION")) {
 					String q_a = serverMessage.split(" /")[1];
 					Platform.runLater(() -> quiz.setQuestion(q_a));

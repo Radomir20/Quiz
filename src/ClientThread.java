@@ -36,7 +36,7 @@ public class ClientThread extends Thread {
 					username = message.split(" ")[1];
 					server.addToList(client);
 				}else if(message.equals("Pitanje"))
-					this.sendMessage(server.getPitanje());
+					this.sendMessage(server.getPitanje(client));
 				else{
 					if(message.equals(server.getOdgovor()))
 						this.sendMessage("ANSWER /Tacno ste odgovorili");
