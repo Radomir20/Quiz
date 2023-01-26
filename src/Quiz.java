@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,16 +22,19 @@ public class Quiz extends Application {
     private Scene scene;
     private Label ques;
     private Label res;
+    private Label player1; 
+    private Label player2; 
     private Button b1;
     private Button b2;
     private Button b3;
 
     private Client client;
+    private boolean endGame = false;
     private String result;
     private String username;
     private String opponent;
-    private boolean opponentConnected = false;
     private int bodovi = 0;
+    private int bodoviProtivnik = 0;
 
     @Override
     public void start(Stage primaryStage) {
@@ -108,33 +112,30 @@ public class Quiz extends Application {
 
 
 
-    // ----------------------------------- GUI
     private Scene makeScene() {
         HBox hb = new HBox(200);
-        Label l1 = new Label(username + ": " + bodovi);// Dodati ime i bodove
-        l1.setStyle("-fx-font-size: 12; -fx-text-fill: white; -fx-font-family: 'Verdana'; -fx-font-weight: bold;");
-        Label l2 = new Label("Player2: 9");// Dodati protivnika i bodove
-        l2.setStyle("-fx-font-size: 12; -fx-text-fill: white; -fx-font-family: 'Verdana'; -fx-font-weight: bold;");
-        hb.getChildren().addAll(l1, l2);
+        player1 = new Label(username + ": " + bodovi);// Dodati ime i bodove
+        player1.setStyle("-fx-font-size: 12; -fx-text-fill: white; -fx-font-family: 'Verdana'; -fx-font-weight: bold;");
+        player2 = new Label();// Dodati protivnika i bodove
+        player2.setStyle("-fx-font-size: 12; -fx-text-fill: white; -fx-font-family: 'Verdana'; -fx-font-weight: bold;");
+        hb.getChildren().addAll(player1, player2);
         hb.setAlignment(Pos.CENTER);
         hb.setStyle("-fx-background-color: #073737; -fx-padding: 5 0 5 0");
-        // hb.setPrefHeight(40);
 
         VBox vb = new VBox(20);
         vb.setAlignment(Pos.TOP_CENTER);
         vb.setStyle("-fx-padding: 50 0 0 0");
 
-        ques = new Label();// pitanje
+        ques = new Label();
         ques.setStyle(
                 "-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: black; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
         ques.setWrapText(true);
         vb.getChildren().add(ques);
 
-        b1 = new Button();// odgovor
+        b1 = new Button();
         b1.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
                 + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
         b1.setPrefWidth(300);
-        // b1.setMinHeight(60);
         vb.getChildren().add(b1);
         b1.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -153,7 +154,7 @@ public class Quiz extends Application {
             }
         });
 
-        b2 = new Button();// odgovor
+        b2 = new Button();
         b2.setStyle("-fx-text-fill: white; -fx-font-size: 16; -fx-font-weight: bold; -fx-font-family: 'Verdana';"
                 + "-fx-background-color: #0c8080; -fx-background-radius: 30px; -fx-padding: 15; -fx-cursor: hand;");
         b2.setPrefWidth(300);
@@ -199,7 +200,7 @@ public class Quiz extends Application {
 
         res = new Label();
         res.setStyle(
-                "-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: green; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
+                "-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: black; -fx-font-family: 'Verdana'; -fx-text-alignment: center;");
         res.setWrapText(true);
         vb.getChildren().add(res);
 
@@ -230,8 +231,6 @@ public class Quiz extends Application {
 
         Scene scene = new Scene(pane, 450, 500);
         return scene;
-
-        // ---------------------------------------
     }
 
     public void setQuestion(String q_a) {
@@ -244,8 +243,28 @@ public class Quiz extends Application {
         timer();
     }
 
-    public void setResult(String result) {
+    public void setResult(String result){
+        endGame = true;
         this.result = result;
+    }
+
+    public void setBodovi(int bod) {
+        this.bodovi += bod;
+        player1.setText(username + ": " + bodovi);
+        if(bodovi == 1)
+            client.sendMessage("WIN");
+    }
+
+    public void setBodoviProtivnika(int bod) {
+        this.bodoviProtivnik += bod;
+        player2.setText(opponent + ": " + bodoviProtivnik);
+    }
+
+    
+    public void setOponentName(String opponent) {
+        this.opponent = opponent;
+        this.player2.setText(this.opponent + ": " + this.bodoviProtivnik);
+        client.sendMessage("QUESTION");
     }
 
     private void timer() {
@@ -256,15 +275,27 @@ public class Quiz extends Application {
             @Override
             public void run() {
                 if (seconds - i == 0) {
-                    Platform.runLater(() -> res.setText(result));
                     Platform.runLater(() -> b1.setDisable(false));
                     Platform.runLater(() -> b2.setDisable(false));
                     Platform.runLater(() -> b3.setDisable(false));
-                    client.sendMessage("Pitanje");
+                    client.sendMessage("QUESTION");
                     this.cancel();
-                } else
+                }else if(endGame){
+                    Platform.runLater(() -> res.setText(result));
+                    client.sendDisconnected();
+                    try {
+                        client.closeResourses();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    this.cancel();
+                }
+                else
                     Platform.runLater(() -> res.setText("" + (seconds - i)));
+                
                 i++;
+
             }
         };
 
@@ -272,15 +303,8 @@ public class Quiz extends Application {
         timer.schedule(task, 0, 1000);
     }
 
+
     public static void main(String[] args) {
         launch(args);
     }
-
-    public void setOponentName(String opponent) {
-        this.opponent = opponent;
-        //System.out.println("Poslao protivnika");
-        client.sendMessage("Pitanje");
-    }
-
-
 }

@@ -1,7 +1,3 @@
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,18 +8,12 @@ public class Server {
 	private ServerSocket serverSocket = null;
 	private ArrayList<ClientThread> threads = new ArrayList<>();
 	private ArrayList<ArrayList<Socket>> clients = new ArrayList<ArrayList<Socket>>();
-	private ArrayList<String[]> pitanja = new ArrayList<>();
 	private ArrayList<Question> questions = new ArrayList<>();
-	private String[] pitanje1 = { "What is 10 + 20?; A)10; B)20; C)30", "C" };
-	private String[] pitanje2 = { "What is 1 + 2?; A)1; B)2; C)3", "C" };
 	private String odgovor;
 
 	public Server() throws IOException {
 		serverSocket = new ServerSocket(SERVER_PORT);
 		System.out.println("Server started on port " + SERVER_PORT);
-		//pitanja.add(pitanje1);
-		//pitanja.add(pitanje2);
-		readQuestions();
 		execute();
 	}
 
@@ -66,23 +56,11 @@ public class Server {
 
 		for (ClientThread thread : threads) {
 			if (thread.getSocket() == player1)
-				thread.sendMessage(message + name2 + " " + 0);
+				thread.sendMessage(message + name2);
 			else if (thread.getSocket() == player2)
-				thread.sendMessage(message + name1 + " " + 1);
+				thread.sendMessage(message + name1);
 		}
 	}
-
-	private void readQuestions() throws IOException{
-
-		BufferedReader br = new BufferedReader(new FileReader("questions.txt"));
-
-		for(String line = br.readLine() ; line != null ; line = br.readLine()){
-			String[] temp = line.split("-");
-			pitanja.add(temp);
-		}
-
-	}
-	
 
 	// oce da vrati username ako ga ne nadje u nitima vraca prazno
 	private String getUsername(Socket player) {
@@ -93,16 +71,33 @@ public class Server {
 		return "";
 	}
 
-	public String getPitanje(Socket client) {
+	public void sendToOponent(String message, Socket client) {
+		for (ArrayList<Socket> list : clients) {
+			if (list.size() == 2 && (client == list.get(0) || client == list.get(1))) {
+				Socket oponent = (client == list.get(0) ? list.get(1) : list.get(0));
+				for (ClientThread thread : threads) {
+					if (thread.getSocket() == oponent)
+						thread.sendMessage(message);
+				}
+				break;
+			}
+		}
+	}
+
+	public synchronized String getPitanje(Socket client) {
+		String s;
 			for (ClientThread thread : threads) {
 				if(thread.getSocket() == client){
-					System.out.println("Prosao prvi");
 					for(Question ques: questions){
 						if(ques.getClient1() == client){
-							System.out.println("Prosao dva");
-							return ques.sendQuestion();
+							s = ques.sendQuestion();
+							odgovor = ques.getCorrectAnswer();
+							return s;
+							
 						} else if(ques.getClient2() == client){
-							return ques.sendQuestion();
+							s = ques.sendQuestion();
+							odgovor = ques.getCorrectAnswer();
+							return s;
 						} 
 					}
 
@@ -114,6 +109,20 @@ public class Server {
 
 	public String getOdgovor() {
 		return odgovor;
+	}
+
+	public synchronized void clientDisconnected(ClientThread client) {
+		threads.remove(client);
+		int index = -1;
+		for (int i = 0; i < clients.size(); i++) {
+			if (client.getSocket().equals(clients.get(i).get(0))
+					|| (clients.get(i).size() == 2 && client.getSocket().equals(clients.get(i).get(1)))) {
+				index = i;
+			}
+		}
+		if (index != -1) {
+			clients.remove(index);
+		}
 	}
 
 	public static void main(String[] args) throws IOException {

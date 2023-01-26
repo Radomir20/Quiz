@@ -43,21 +43,24 @@ public class Client extends Thread {
 			String serverMessage;
 			while (true) {
 				serverMessage = input.readLine(); // osluskuje i cita koju i da li postu dobija
-				System.out.println(serverMessage);
 				if (serverMessage == null)
 					break;
 				String action = serverMessage.split(" /")[0];
 				if (action.equals("START")) {
-					String name = serverMessage.split(" ")[1];
-					quiz.setOponentName(name);
-
-					//quiz.setOponentConnected();
-				}else
-				if (action.equals("QUESTION")) {
+					String name = serverMessage.split(" /")[1];
+					Platform.runLater(() ->quiz.setOponentName(name));
+				}else if (action.equals("QUESTION")) {
 					String q_a = serverMessage.split(" /")[1];
 					Platform.runLater(() -> quiz.setQuestion(q_a));
 				} else if (action.equals("ANSWER")) {
-					quiz.setResult(serverMessage.split(" /")[1]);
+					int bod = Integer.parseInt(serverMessage.split(" /")[1]);
+					Platform.runLater(() ->quiz.setBodovi(bod));
+				}else if (action.equals("POINTS")) {
+					int bod = Integer.parseInt(serverMessage.split(" /")[1]);
+					Platform.runLater(() ->quiz.setBodoviProtivnika(bod));
+				}else if(action.equals("RESULT")){
+					String result = serverMessage.split(" /")[1];
+					quiz.setResult(result);
 				}
 
 			}
@@ -83,6 +86,10 @@ public class Client extends Thread {
     public void sendUsername() {
 		output.println("USERNAME " + this.username);
     }
+
+	public void sendDisconnected() {
+		output.println("DISCONNECTED");
+	}
 
 	public void closeResourses() throws IOException {
 		input.close();

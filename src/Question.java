@@ -30,10 +30,8 @@ public class Question {
 
      public String sendQuestion() {
           if (questionSent == false){
-               System.out.println("uso");
                if (!pitanja.isEmpty()) {
                     this.question = "QUESTION /" + pitanja.get(0)[0];
-                    System.out.println(this.question);
                     this.correctAnswer = pitanja.get(0)[1];
                     this.pitanja.remove(0);
                     this.questionSent = true;
@@ -54,6 +52,8 @@ public class Question {
                String[] temp = line.split("-");
                pitanja.add(temp);
           }
+
+          br.close();
 
      }
 

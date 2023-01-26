@@ -29,19 +29,27 @@ public class ClientThread extends Thread {
 			String message;
 			while (true) {
 				message = input.readLine();
-				System.out.println(message);
 
 				String action = message.split(" ")[0];
 				if (action.equals("USERNAME")) {
 					username = message.split(" ")[1];
 					server.addToList(client);
-				}else if(message.equals("Pitanje"))
+				} else if (message.equals("QUESTION"))
 					this.sendMessage(server.getPitanje(client));
-				else{
-					if(message.equals(server.getOdgovor()))
-						this.sendMessage("ANSWER /Tacno ste odgovorili");
-					else
-						this.sendMessage("ANSWER /Pogresan odgovor");
+				else if (message.equals("WIN")) {
+					this.sendMessage("RESULT /Cestitam, pobjedili ste!");
+					server.sendToOponent("RESULT /Nazalost, izgubili ste :(", client);
+				} else if (message.equals("DISCONNECTED")) {
+					server.clientDisconnected(this);
+					closeAll();
+				} else {
+					if (message.equals(server.getOdgovor())) {
+						this.sendMessage("ANSWER /1");
+						server.sendToOponent("POINTS /1", client);
+					} else {
+						this.sendMessage("ANSWER /0");
+						server.sendToOponent("POINTS /0", client);
+					}
 				}
 			}
 		} catch (IOException e) {
