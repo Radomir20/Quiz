@@ -37,7 +37,7 @@ public class ClientThread extends Thread {
 				} else if (message.equals("QUESTION"))
 					this.sendMessage(server.getPitanje(client));
 				else if (message.equals("WIN")) {
-					this.sendMessage("RESULT /Cestitam, pobjedili ste!");
+					this.sendMessage("RESULT /Cestitam, pobijedili ste!");
 					server.sendToOponent("RESULT /Nazalost, izgubili ste :(", client);
 				} else if (message.equals("DISCONNECTED")) {
 					server.clientDisconnected(this);

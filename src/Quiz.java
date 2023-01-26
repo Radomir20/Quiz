@@ -251,7 +251,7 @@ public class Quiz extends Application {
     public void setBodovi(int bod) {
         this.bodovi += bod;
         player1.setText(username + ": " + bodovi);
-        if(bodovi == 1)
+        if(bodovi == 5)
             client.sendMessage("WIN");
     }
 

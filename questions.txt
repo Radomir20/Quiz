@@ -1,3 +1,17 @@
+Koji je prvi Internet pretrazivac?; A) Google; B) Archie; C) WAIS -B
+Koliko bita koriste IPv6 adrese?; A) 32 bit; B) 64 bit; C) 128 bit -C
+Kako se zvao prvi racunarski virus?; A) Rabbit; B) Creeper Virus; C) SCA Virus -B
+Koji programski jezik se koristi za AI?; A) C; B) Java; C)Prolog -C
+Firewall se koristi za?; A) Sigurnost; B) Prenos podataka; C) Autentifikaciju -A
+Sta od navedenog nije operativni sistem?; A) DOS; B) C; C) Linux -B
+Koliko slojeva ima OSI model?; A) 9; B) 7; C) 3 -B
+MacOS je razvijen od koje kompanije?; A) IBM; B) Apple; C) Microsoft -B
+GIF je ekstenzija za?; A) Sliku; B) Video; C) Audio -A
+Hard disk je prvi predstavljen od strane?; A) Dell; B) Apple; C) IBM -C
+U racunarskom svijetu, Trojan se odnosi na?; A) Virus; B) Malware; C) Crv -B
+Koji protokol se koristi za primanje e-poste?; A) SMTP; B) HTTP; C) POP3 -C
+Koliko slojeva ima TCP/IP protokol?; A) 7; B) 5; C) 4 -C
+Koji web pretrazivac je razvijen od strane Google-a?; A) Chrome; B) Safari; C) Firefox -A
 Koji je jedan od benefita OOPa?; A) Odrzivost; B) Polimorfizam; C) Fleksibilnost -B
 Koji je ispravan nacin za ispis u Pajtonu?; A) print("hello world"); B) printer("hello world"); C) Print(hello world) -A
 1 Mb je?; A) 1024 kb; B) 1000 kb; C) 1000 bajta -A
