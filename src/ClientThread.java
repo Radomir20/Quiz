@@ -43,7 +43,7 @@ public class ClientThread extends Thread {
 					server.clientDisconnected(this);
 					closeAll();
 				} else {
-					if (message.equals(server.getOdgovor())) {
+					if (message.equals(server.getOdgovor(client))) {
 						this.sendMessage("ANSWER /1");
 						server.sendToOponent("POINTS /1", client);
 					} else {

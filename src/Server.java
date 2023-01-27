@@ -9,7 +9,6 @@ public class Server {
 	private ArrayList<ClientThread> threads = new ArrayList<>();
 	private ArrayList<ArrayList<Socket>> clients = new ArrayList<ArrayList<Socket>>();
 	private ArrayList<Question> questions = new ArrayList<>();
-	private String odgovor;
 
 	public Server() throws IOException {
 		serverSocket = new ServerSocket(SERVER_PORT);
@@ -91,12 +90,10 @@ public class Server {
 					for(Question ques: questions){
 						if(ques.getClient1() == client){
 							s = ques.sendQuestion();
-							odgovor = ques.getCorrectAnswer();
 							return s;
 							
 						} else if(ques.getClient2() == client){
 							s = ques.sendQuestion();
-							odgovor = ques.getCorrectAnswer();
 							return s;
 						} 
 					}
@@ -107,8 +104,24 @@ public class Server {
 
 	}
 
-	public String getOdgovor() {
-		return odgovor;
+	public String getOdgovor(Socket client) {
+		String o;
+		for (ClientThread thread : threads) {
+			if(thread.getSocket() == client){
+				for(Question ques: questions){
+					if(ques.getClient1() == client){
+						o = ques.getCorrectAnswer();
+						return o;
+						
+					} else if(ques.getClient2() == client){
+						o = ques.getCorrectAnswer();
+						return o;
+					} 
+				}
+
+			}
+		}
+		return "";
 	}
 
 	public synchronized void clientDisconnected(ClientThread client) {
